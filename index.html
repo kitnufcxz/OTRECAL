@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTRECAL RENTA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: #000 url('bg.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.light-theme {
+            background: #f5f7fa url('bg-light.png') no-repeat center center/cover fixed;
+            color: #333;
+        }
+
+        body.light-theme::after {
+            background: rgba(245, 247, 250, 0.1);
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .glass-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            height: 70px;
+        }
+
+        body.light-theme .navbar {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            padding: 10px 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1em;
+            position: relative;
+            padding: 5px 10px;
+            white-space: nowrap;
+        }
+
+        body.light-theme .nav-links a {
+            color: #333;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: #00f7ff;
+            transition: width 0.3s;
+        }
+
+        body.light-theme .nav-links a::after {
+            background: #ff8a00;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .main-header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .main-title {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff00cc, #3333ff, #00ccff, #ff00cc);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: subtle-float 4s ease-in-out infinite;
+        }
+
+        
+         
+        body.light-theme .main-title {
+            background: linear-gradient(90deg, #e52e71, #ff8a00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        .sub-title {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            background: linear-gradient(90deg, #00ccff, #ff00cc, #00ccff);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            letter-spacing: 3px;
+        }
+        
+        body.light-theme .sub-title {
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+       
+       
+
+        /*УУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУУ*/
+
+
+        @keyframes subtle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .content {
+            padding: 150px 20px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #00ccff, #ff00cc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
+            color: transparent;
+            display: inline-block;
+        }
+
+        body.light-theme .section-title {
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .feature {
+            padding: 30px;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #00ccff;
+        }
+
+        body.light-theme .feature-icon {
+            color: #ff8a00;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00ccff;
+        }
+
+        body.light-theme .feature-title {
+            color: #ff8a00;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        body.light-theme footer {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .theme-language-container {
+            position: fixed;
+            top: 80px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        @media (min-width: 769px) {
+            .theme-language-container {
+                top: 20px;
+                right: 20px;
+                flex-direction: row;
+                align-items: center;
+
+            
+            }
+           
+        }
+
+        .theme-switcher {
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        body.light-theme .theme-switcher {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-switcher-handle {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        body.light-theme .theme-switcher-handle {
+            background: #333;
+            transform: translateX(30px);
+        }
+
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 5px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            font-weight: bold;
+        }
+
+        body.light-theme .language-button {
+            background: rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            color: #333;
+        }
+
+        .language-button img {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 10px 0;
+            margin-top: 5px;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-theme .language-dropdown {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-dropdown.show {
+            display: block;
+        }
+
+        .language-option {
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: white;
+        }
+
+        body.light-theme .language-option {
+            color: #333;
+        }
+
+        .language-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-theme .language-option:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .language-option img {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        body.light-theme .particle {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
+                height: 60px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+                padding: 5px 10px;
+            }
+            
+            .nav-links a {
+                font-size: 0.9em;
+                padding: 3px 6px;
+            }
+            
+            .theme-language-container {
+                top: 70px;
+                right: 10px;
+                gap: 10px;
+            }
+            
+            .theme-switcher {
+                width: 50px;
+                height: 25px;
+            }
+            
+            .theme-switcher-handle {
+                width: 18px;
+                height: 18px;
+            }
+            
+            body.light-theme .theme-switcher-handle {
+                transform: translateX(25px);
+            }
+            
+            .language-button {
+                padding: 3px 10px;
+                font-size: 0.9em;
+            }
+            
+            .content {
+                padding: 130px 15px 80px;
+            }
+            
+            .feature {
+                padding: 20px;
+            }
+            
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 2.5rem;
+                letter-spacing: 3px;
+            }
+            
+            .sub-title {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+            
+            .nav-links {
+                gap: 8px;
+            }
+            
+            .nav-links a {
+                font-size: 0.8em;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .feature-title {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px 15px;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            color: white;
+        }
+
+        body.light-theme .menu-toggle {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                flex-direction: column;
+                padding: 10px 0;
+                display: none;
+            }
+            
+            body.light-theme .nav-links {
+                background: rgba(255, 255, 255, 0.95);
+            }
+            
+            .nav-links.show {
+                display: flex;
+            }
+            
+            .nav-links a {
+                padding: 12px 20px;
+                text-align: center;
+            }
+        }
+
+        .music-player-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .music-player {
+            width: 190px;
+            height: 254px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .music-player.minimized {
+            height: 60px;
+            width: 60px;
+        }
+
+        .music-player.minimized .one,
+        .music-player.minimized .two,
+        .music-player.minimized .three {
+            display: none;
+        }
+
+        .music-player.minimized .minimize-btn {
+            transform: rotate(180deg);
+        }
+
+        .music-player .one {
+            width: 190px;
+            height: 254px;
+            z-index: 10;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.55);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8.5px);
+            -webkit-backdrop-filter: blur(8.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        body.light-theme .music-player .one {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .music-player .one .title {
+            width: 70px;
+            border: 1px solid rgba(180, 177, 177, 0.308);
+            display: block;
+            margin: 12px auto;
+            text-align: center;
+            font-size: 10px;
+            border-radius: 12px;
+            font-family: Roboto, sans-serif;
+            color: rgba(102, 100, 100, 0.911);
+        }
+
+        body.light-theme .music-player .one .title {
+            color: rgba(102, 100, 100, 0.911);
+            border: 1px solid rgba(180, 177, 177, 0.5);
+        }
+
+        .music-player .one .music {
+            width: 80px;
+            height: 80px;
+            background: rgba(216, 212, 212, 0.726);
+            margin: 30px auto;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .music-player .one .music img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .music-player .one .music img.active {
+            display: block;
+        }
+
+        .music-player .one .music .note-icon {
+            display: block;
+            width: 30px;
+            height: 30px;
+        }
+
+        .music-player .one .music img.active ~ .note-icon {
+            display: none;
+        }
+
+        body.light-theme .music-player .one .music {
+            background: rgba(180, 177, 177, 0.5);
+        }
+
+        .music-player .one .name {
+            width: 150px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            font-family: Roboto, sans-serif;
+            padding: 0 5px;
+            margin: -22px auto;
+            display: block;
+            overflow: hidden;
+            text-align: center;
+            color: rgba(50, 49, 51, 0.637);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .music-player .one .name1 {
+            width: 120px;
+            height: 20px;
+            font-size: 9px;
+            font-weight: 500;
+            font-family: Roboto, sans-serif;
+            padding: 0 5px;
+            margin: 19px auto;
+            display: block;
+            overflow: hidden;
+            text-align: center;
+            color: rgba(50, 49, 51, 0.637);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .music-player .one .bar {
+            width: 100px;
+            margin: -15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+
+        .music-player .one .bar:last-child {
+            margin: 35px auto;
+            width: 100%;
+            padding: 2px 23px;
+        }
+
+        .music-player .one .bar .color {
+            fill: rgba(82, 79, 79, 0.829);
+        }
+
+        .music-player .one .bar .color1 {
+            fill: rgba(29, 28, 28, 0.829);
+            cursor: pointer;
+        }
+
+        body.light-theme .music-player .one .bar .color1 {
+            fill: rgba(82, 79, 79, 0.829);
+        }
+
+        .music-player .one .bar .bi:first-child {
+            transform: rotate(180deg);
+        }
+
+        .music-player .one .bar:last-child .color1:first-child {
+            transform: rotate(0deg);
+        }
+
+        .music-player .two {
+            width: 60px;
+            height: 60px;
+            background-color: rgb(131, 25, 163);
+            filter: drop-shadow(0 0 10px rgb(131, 25, 163));
+            border-radius: 50%;
+            position: relative;
+            top: 30px;
+            left: 20px;
+            animation: one 5s infinite;
+        }
+
+        .music-player .three {
+            width: 60px;
+            height: 60px;
+            background-color: rgb(29, 209, 149);
+            filter: drop-shadow(0 0 10px rgb(29, 209, 149));
+            border-radius: 50%;
+            position: relative;
+            top: 90px;
+            left: 90px;
+            animation: two 5s infinite;
+        }
+
+        .minimize-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 12px;
+        }
+
+        body.light-theme .minimize-btn {
+            background: rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .minimized-player {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .minimized-player img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .minimized-player img.active {
+            display: block;
+        }
+
+        .minimized-player .note-icon {
+            display: block;
+            width: 24px;
+            height: 24px;
+        }
+
+        .minimized-player img.active ~ .note-icon {
+            display: none;
+        }
+
+        @keyframes one {
+            0% {
+                top: 30px;
+                left: 20px;
+            }
+            20% {
+                top: 50px;
+                left: 40px;
+            }
+            40% {
+                top: 80px;
+                left: 70px;
+            }
+            50% {
+                top: 60px;
+                left: 40px;
+            }
+            60% {
+                top: 35px;
+                left: 90px;
+            }
+            80% {
+                top: 70px;
+                left: 70px;
+            }
+            100% {
+                top: 30px;
+                left: 20px;
+            }
+        }
+
+        @keyframes two {
+            0% {
+                top: 90px;
+                left: 90px;
+            }
+            20% {
+                top: 50px;
+                left: 40px;
+            }
+            40% {
+                top: 60px;
+                left: 20px;
+            }
+            50% {
+                top: 80px;
+                left: 30px;
+            }
+            60% {
+                top: 35px;
+                left: 90px;
+            }
+            80% {
+                top: 70px;
+                left: 60px;
+            }
+            100% {
+                top: 90px;
+                left: 90px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .music-player-container {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .music-player {
+                transform: scale(0.9);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .music-player {
+                transform: scale(0.8);
+            }
+        }
+
+        .music-file-input {
+            display: none;
+        }
+
+        .progress-container {
+            width: 150px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 5px auto;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        body.light-theme .progress-container {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #00ccff;
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        body.light-theme .progress-bar {
+            background: #ff8a00;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            width: 150px;
+            margin: 0 auto;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        body.light-theme .time-display {
+            color: rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="menu-toggle" id="menuToggle">☰</div>
+        <div class="nav-links" id="navLinks">
+            <a href="https://t.me/otrecalrental">Аренда</a>
+            <a href="https://t.me/OTRECAL_chat">Чат</a>
+            <a href="https://t.me/OTRECAL_aep">Эдиты</a>
+            <a href="#features">Преимущества</a>
+            <a href="#accounts">Аккаунты</a>
+        </div>
+    </nav>
+    
+    <div class="theme-language-container">
+        <div class="language-selector">
+            <div class="language-button" id="languageButton">
+                <img src="https://flagcdn.com/w20/ru.png" alt="Russian">
+                <span>Русский</span>
+            </div>
+            <div class="language-dropdown" id="languageDropdown">
+                <div class="language-option" data-lang="en">
+                    <img src="https://flagcdn.com/w20/gb.png" alt="English">
+                    <span>English</span>
+                </div>
+                <div class="language-option" data-lang="ru">
+                    <img src="https://flagcdn.com/w20/ru.png" alt="Russian">
+                    <span>Русский</span>
+                </div>
+                <div class="language-option" data-lang="uk">
+                    <img src="https://flagcdn.com/w20/ua.png" alt="Ukrainian">
+                    <span>Українська</span>
+                </div>
+            </div>
+        </div>
+        <div class="theme-switcher" id="themeSwitcher">
+            <div class="theme-switcher-handle"></div>
+        </div>
+    </div>
+    
+    <header class="main-header">
+        <div class="particles" id="particles"></div>
+        <h1 class="main-title">OTRECAL</h1>
+        <h2 class="sub-title">RENTA</h2>
+    </header>
+
+    <main class="content">
+        <section id="features" class="section">
+            <h3 class="section-title">Наши преимущества</h3>
+            <div class="features">
+                <div class="feature glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="feature-title">Безопасность</h4>
+                    <p>Гарантированная защита данных и конфиденциальность, так же возврат средств в случае проблем.</p>
+                </div>
+                <div class="feature glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4 class="feature-title">Скорость</h4>
+                    <p>Выдача аккаунта в течении 15 минут с момента оплаты.</p>
+                </div>
+                <div class="feature glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h4 class="feature-title">Выгодные цены</h4>
+                    <p>Специальные предложения для постоянных клиентов</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="accounts" class="section">
+            <h3 class="section-title">Наши аккаунты</h3>
+            <div class="features">
+                <div class="feature glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h4 class="feature-title">Донат аккаунты</h4>
+                    <p>В наличии аккаунты 500 миф.</p>
+                </div>
+                <div class="feature glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4 class="feature-title">Топовые аккаунты</h4>
+                    <p>В наличии аккаунты 300 миф.</p>
+                </div>
+                <div class="feature glass-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h4 class="feature-title">Премиум аккаунты</h4>
+                    <p>В наличии жирные аккаунты.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2023 OTRECAL RENTA. Все права защищены.</p>
+    </footer>
+
+    <input type="file" id="musicFileInput" class="music-file-input" accept="audio/*">
+    <input type="file" id="coverFileInput" class="music-file-input" accept="image/*">
+
+    <div class="music-player-container">
+        <div class="music-player" id="musicPlayer">
+            <div class="minimize-btn" id="minimizeBtn">↓</div>
+            <div class="one">
+                <span class="title">Music</span>
+                <div class="music" id="musicCoverContainer">
+                    <img id="musicCover" src="" alt="Cover">
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="note-icon bi bi-music-note"
+                        fill="currentColor"
+                        height="30"
+                        width="30"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M9 13c0 1.105-1.12 2-2.5 2S4 14.105 4 13s1.12-2 2.5-2 2.5.895 2.5 2z"
+                        ></path>
+                        <path d="M9 3v10H8V3h1z" fill-rule="evenodd"></path>
+                        <path
+                            d="M8 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 13 2.22V4L8 5V2.82z"
+                        ></path>
+                    </svg>
+                </div>
+                <span class="name" id="songTitle">No song selected</span>
+                <span class="name1" id="songArtist">Unknown artist</span>
+                
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+                
+                <div class="bar">
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color bi bi-skip-start-fill"
+                        fill="currentColor"
+                        height="16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="prevBtn"
+                    >
+                        <path d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.54-.313 1.232.066 1.232.696v7.384c0 .63-.692 1.01-1.232.697L5 8.753V12a.5.5 0 0 1-1 0V4z"/>
+                    </svg>
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color bi bi-play-fill"
+                        fill="currentColor"
+                        height="18"
+                        width="18"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="playPauseBtn"
+                    >
+                        <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                    </svg>
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color bi bi-skip-end-fill"
+                        fill="currentColor"
+                        height="16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="nextBtn"
+                    >
+                        <path d="M12.5 4a.5.5 0 0 0-1 0v3.248L5.233 3.612C4.693 3.3 4 3.678 4 4.308v7.384c0 .63.693 1.01 1.233.697L11.5 8.753V12a.5.5 0 0 0 1 0V4z"/>
+                    </svg>
+                </div>
+                <div class="bar">
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color1 bi bi-shuffle"
+                        fill="currentColor"
+                        height="14"
+                        width="14"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="shuffleBtn"
+                    >
+                        <path
+                            d="M0 3.5A.5.5 0 0 1 .5 3H1c2.202 0 3.827 1.24 4.874 2.418.49.552.865 1.102 1.126 1.532.26-.43.636-.98 1.126-1.532C9.173 4.24 10.798 3 13 3v1c-1.798 0-3.173 1.01-4.126 2.082A9.624 9.624 0 0 0 7.556 8a9.624 9.624 0 0 0 1.317 1.918C9.828 10.99 11.204 12 13 12v1c-2.202 0-3.827-1.24-4.874-2.418A10.595 10.595 0 0 1 7 9.05c-.26.43-.636.98-1.126 1.532C4.827 11.76 3.202 13 1 13H.5a.5.5 0 0 1 0-1H1c1.798 0 3.173-1.01 4.126-2.082A9.624 9.624 0 0 0 6.444 8a9.624 9.624 0 0 0-1.317-1.918C4.172 5.01 2.796 4 1 4H.5a.5.5 0 0 1-.5-.5z"
+                            fill-rule="evenodd"
+                        ></path>
+                        <path
+                            d="M13 5.466V1.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192zm0 9v-3.932a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384l-2.36 1.966a.25.25 0 0 1-.41-.192z"
+                        ></path>
+                    </svg>
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color1 bi bi-music-note-list"
+                        fill="currentColor"
+                        height="14"
+                        width="14"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="playlistBtn"
+                    >
+                        <path
+                            d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z"
+                        ></path>
+                        <path d="M12 3v10h-1V3h1z" fill-rule="evenodd"></path>
+                        <path
+                            d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z"
+                        ></path>
+                        <path
+                            d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"
+                            fill-rule="evenodd"
+                        ></path>
+                    </svg>
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color1 bi bi-heart"
+                        fill="currentColor"
+                        height="14"
+                        width="14"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="likeBtn"
+                    >
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                    </svg>
+                    <svg
+                        viewBox="0 0 16 16"
+                        class="color1 bi bi-upload"
+                        fill="currentColor"
+                        height="14"
+                        width="14"
+                        xmlns="http://www.w3.org/2000/svg"
+                        id="uploadBtn"
+                    >
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="two"></div>
+            <div class="three"></div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <script>
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        themeSwitcher.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        });
+
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+
+        const languageButton = document.getElementById('languageButton');
+        const languageDropdown = document.getElementById('languageDropdown');
+        
+        languageButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+            languageDropdown.classList.remove('show');
+        });
+
+        const translations = {
+                'en': {
+                'nav-rent': 'Rent',
+                'nav-chat': 'Chat',
+                'nav-edits': 'Edits',
+                'nav-features': 'Features',
+                'nav-accounts': 'Accounts',
+                'main-title': 'OTRECAL',
+                'sub-title': 'RENT',
+                'features-title': 'Our advantages',
+                'feature-security': 'Security',
+                'feature-security-text': 'Guaranteed data protection and confidentiality, as well as refunds in case of problems.',
+                'feature-speed': 'Speed',
+                'feature-speed-text': 'Account issuance within 15 minutes of payment.',
+                'feature-prices': 'Favorable prices',
+                'feature-prices-text': 'Special offers for regular customers',
+                'accounts-title': 'Our accounts',
+                'account-donate': 'Donate accounts',
+                'account-donate-text': 'There are 500 myth accounts available.',
+                'account-top': 'Top accounts',
+                'account-top-text': 'There are 300 myth accounts available.',
+                'account-premium': 'Premium accounts',
+                'account-premium-text': 'Fat accounts available.',
+                'footer': '© 2023 OTRECAL RENT. All rights reserved.'
+            },
+            'ru': {
+                'nav-rent': 'Аренда',
+                'nav-chat': 'Чат',
+                'nav-edits': 'Эдиты',
+                'nav-features': 'Преимущества',
+                'nav-accounts': 'Аккаунты',
+                'main-title': 'OTRECAL',
+                'sub-title': 'RENTA',
+                'features-title': 'Наши преимущества',
+                'feature-security': 'Безопасность',
+                'feature-security-text': 'Гарантированная защита данных и конфиденциальность, так же возврат средств в случае проблем.',
+                'feature-speed': 'Скорость',
+                'feature-speed-text': 'Выдача аккаунта в течении 15 минут с момента оплаты.',
+                'feature-prices': 'Выгодные цены',
+                'feature-prices-text': 'Специальные предложения для постоянных клиентов',
+                'accounts-title': 'Наши аккаунты',
+                'account-donate': 'Донат аккаунты',
+                'account-donate-text': 'В наличии аккаунты 500 миф.',
+                'account-top': 'Топовые аккаунты',
+                'account-top-text': 'В наличии аккаунты 300 миф.',
+                'account-premium': 'Премиум аккаунты',
+                'account-premium-text': 'В наличии жирные аккаунты.',
+                'footer': '© 2023 OTRECAL RENTA. Все права защищены.'
+            },
+            'uk': {
+                'nav-rent': 'Оренда',
+                'nav-chat': 'Чат',
+                'nav-edits': 'Едіти',
+                'nav-features': 'Переваги',
+                'nav-accounts': 'Акаунти',
+                'main-title': 'OTRECAL',
+                'sub-title': 'RENT',
+                'features-title': 'Наші переваги',
+                'feature-security': 'Безпека',
+                'feature-security-text': 'Гарантований захист даних і конфіденційність, а також повернення коштів у разі проблем.',
+                'feature-speed': 'Швидкість',
+                'feature-speed-text': 'Видача акаунта протягом 15 хвилин з моменту оплати.',
+                'feature-prices': 'Вигідні ціни',
+                'feature-prices-text': 'Спеціальні пропозиції для постійних клієнтів',
+                'accounts-title': 'Наші акаунти',
+                'account-donate': 'Донат акаунти',
+                'account-donate-text': 'В наявності акаунти 500 миф.',
+                'account-top': 'Топові акаунти',
+                'account-top-text': 'В наявності акаунти 300 миф.',
+                'account-premium': 'Преміум акаунти',
+                'account-premium-text': 'В наявності жирные аккаунты.',
+                'footer': '© 2023 OTRECAL RENT. Всі права захищені.'
+            }
+        };
+
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                
+                const img = this.querySelector('img').cloneNode(true);
+                const text = this.querySelector('span').cloneNode(true);
+                
+                languageButton.innerHTML = '';
+                languageButton.appendChild(img);
+                languageButton.appendChild(text);
+                
+                localStorage.setItem('language', lang);
+                
+                applyTranslation(lang);
+                
+                languageDropdown.classList.remove('show');
+            });
+        });
+
+        function applyTranslation(lang) {
+            const translation = translations[lang];
+            
+            document.querySelector('a[href="#rent"]').textContent = translation['nav-rent'];
+            document.querySelector('a[href="#chat"]').textContent = translation['nav-chat'];
+            document.querySelector('a[href="#edits"]').textContent = translation['nav-edits'];
+            document.querySelector('a[href="#features"]').textContent = translation['nav-features'];
+            document.querySelector('a[href="#accounts"]').textContent = translation['nav-accounts'];
+            
+            document.querySelector('.sub-title').textContent = translation['sub-title'];
+            
+            document.querySelector('#features .section-title').textContent = translation['features-title'];
+            document.querySelectorAll('#features .feature-title')[0].textContent = translation['feature-security'];
+            document.querySelectorAll('#features .feature-title')[1].textContent = translation['feature-speed'];
+            document.querySelectorAll('#features .feature-title')[2].textContent = translation['feature-prices'];
+            document.querySelectorAll('#features p')[0].textContent = translation['feature-security-text'];
+            document.querySelectorAll('#features p')[1].textContent = translation['feature-speed-text'];
+            document.querySelectorAll('#features p')[2].textContent = translation['feature-prices-text'];
+            
+            document.querySelector('#accounts .section-title').textContent = translation['accounts-title'];
+            document.querySelectorAll('#accounts .feature-title')[0].textContent = translation['account-donate'];
+            document.querySelectorAll('#accounts .feature-title')[1].textContent = translation['account-top'];
+            document.querySelectorAll('#accounts .feature-title')[2].textContent = translation['account-premium'];
+            document.querySelectorAll('#accounts p')[0].textContent = translation['account-donate-text'];
+            document.querySelectorAll('#accounts p')[1].textContent = translation['account-top-text'];
+            document.querySelectorAll('#accounts p')[2].textContent = translation['account-premium-text'];
+            
+            document.querySelector('footer p').textContent = translation['footer'];
+        }
+
+        const savedLanguage = localStorage.getItem('language') || 'ru';
+        if (savedLanguage !== 'ru') {
+            applyTranslation(savedLanguage);
+            
+            const flagUrl = savedLanguage === 'en' ? 'https://flagcdn.com/w20/gb.png' : 
+                          savedLanguage === 'uk' ? 'https://flagcdn.com/w20/ua.png' : 
+                          'https://flagcdn.com/w20/ru.png';
+            
+            const languageName = savedLanguage === 'en' ? 'English' : 
+                               savedLanguage === 'uk' ? 'Українська' : 
+                               'Русский';
+            
+            languageButton.innerHTML = `<img src="${flagUrl}" alt="${languageName}"><span>${languageName}</span>`;
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNavLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', function() {
+            mobileNavLinks.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    mobileNavLinks.classList.remove('show');
+                }
+            });
+        });
+
+        function handleResize() {
+            if (window.innerWidth > 768) {
+                mobileNavLinks.classList.remove('show');
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        const musicPlayer = document.getElementById('musicPlayer');
+        const minimizeBtn = document.getElementById('minimizeBtn');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const likeBtn = document.getElementById('likeBtn');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const playlistBtn = document.getElementById('playlistBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const songTitle = document.getElementById('songTitle');
+        const songArtist = document.getElementById('songArtist');
+        const musicCover = document.getElementById('musicCover');
+        const musicCoverContainer = document.getElementById('musicCoverContainer');
+        const musicFileInput = document.getElementById('musicFileInput');
+        const coverFileInput = document.getElementById('coverFileInput');
+
+        let playlist = [
+            {
+                title: "delulu",
+                artist: "NESYA",
+                audioSrc: "song1.mp3",
+                coverSrc: "song1.png"
+            },
+            {
+                title: "Посетитель снов",
+                artist: "whylovly",
+                audioSrc: "song2.mp3",
+                coverSrc: "song2.png"
+            },
+            {
+                title: "Ангел",
+                artist: "Юпи",
+                audioSrc: "song3.mp3",
+                coverSrc: "song3.png"
+            }
+        ];
+
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let isShuffled = false;
+        let isLiked = false;
+
+        function loadTrack(index) {
+            const track = playlist[index];
+            audioPlayer.src = track.audioSrc;
+            songTitle.textContent = track.title;
+            songArtist.textContent = track.artist;
+            
+            if (track.coverSrc) {
+                musicCover.src = track.coverSrc;
+                musicCover.classList.add('active');
+            } else {
+                musicCover.classList.remove('active');
+            }
+            
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(audioPlayer.duration);
+            });
+            
+            if (isPlaying) {
+                audioPlayer.play();
+            }
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateProgress() {
+            const { duration, currentTime } = audioPlayer;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            currentTimeEl.textContent = formatTime(currentTime);
+        }
+
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audioPlayer.duration;
+            audioPlayer.currentTime = (clickX / width) * duration;
+        }
+
+        function prevTrack() {
+            currentTrackIndex--;
+            if (currentTrackIndex < 0) {
+                currentTrackIndex = playlist.length - 1;
+            }
+            loadTrack(currentTrackIndex);
+        }
+
+        function nextTrack() {
+            currentTrackIndex++;
+            if (currentTrackIndex > playlist.length - 1) {
+                currentTrackIndex = 0;
+            }
+            loadTrack(currentTrackIndex);
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                pauseTrack();
+            } else {
+                playTrack();
+            }
+        }
+
+        function playTrack() {
+            audioPlayer.play();
+            isPlaying = true;
+            playPauseBtn.innerHTML = '<path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>';
+        }
+
+        function pauseTrack() {
+            audioPlayer.pause();
+            isPlaying = false;
+            playPauseBtn.innerHTML = '<path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>';
+        }
+
+        function toggleMinimize() {
+            musicPlayer.classList.toggle('minimized');
+        }
+
+        function uploadMusic() {
+            musicFileInput.click();
+        }
+
+        function uploadCover() {
+            coverFileInput.click();
+        }
+
+        minimizeBtn.addEventListener('click', toggleMinimize);
+        playPauseBtn.addEventListener('click', togglePlay);
+        prevBtn.addEventListener('click', prevTrack);
+        nextBtn.addEventListener('click', nextTrack);
+        shuffleBtn.addEventListener('click', () => {
+            isShuffled = !isShuffled;
+            shuffleBtn.classList.toggle('active');
+        });
+        likeBtn.addEventListener('click', () => {
+            isLiked = !isLiked;
+            if (isLiked) {
+                likeBtn.innerHTML = '<path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>';
+            } else {
+                likeBtn.innerHTML = '<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>';
+            }
+        });
+        uploadBtn.addEventListener('click', uploadMusic);
+        playlistBtn.addEventListener('click', () => {
+            alert('Playlist functionality will be added later');
+        });
+        progressContainer.addEventListener('click', setProgress);
+        audioPlayer.addEventListener('timeupdate', updateProgress);
+        audioPlayer.addEventListener('ended', nextTrack);
+        musicCoverContainer.addEventListener('click', uploadCover);
+
+        // Обработка загрузки файлов
+        musicFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const newTrack = {
+                    title: file.name.replace(/\.[^/.]+$/, ""),
+                    artist: "Unknown Artist",
+                    audioSrc: URL.createObjectURL(file),
+                    coverSrc: ""
+                };
+                playlist.push(newTrack);
+                currentTrackIndex = playlist.length - 1;
+                loadTrack(currentTrackIndex);
+                playTrack();
+            }
+        });
+
+        coverFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    playlist[currentTrackIndex].coverSrc = event.target.result;
+                    musicCover.src = event.target.result;
+                    musicCover.classList.add('active');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        loadTrack(currentTrackIndex);
+
+        window.onload = function() {
+            createParticles();
+            handleResize();
+        };
+    </script>
+</body>
+</html>
